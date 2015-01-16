@@ -1,0 +1,28 @@
+(plot)
+======
+
+Very much a "work in progress"
+
+Uses Guile Scheme and Cairo to make plots and do some basic numerical
+methods
+
+Requires::
+
+    guile
+    cairo
+    guile-cairo
+
+N.B. - Installing guile-cairo from the Debian/Ubuntu repos is out of date
+with the cairo package and leads to a seg fault. guile-cairo must be
+installed from source.
+
+The guile and cairo packages for Debian/Ubuntu are sufficient.
+
+I am unable to make the brew formula for cairo work on MacOSx
+
+
+Future plans
+------------
+
+Possibly use GTK to embed Scheme REPL and Cairo canvas in a simple GUI
+program.

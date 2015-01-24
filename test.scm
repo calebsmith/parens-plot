@@ -20,8 +20,8 @@
 
 
 (define (lsfe-demo)
-    (let* ((plot (plot:new 800 800))
-           (xrange (list -400 400 1))
+    (let* ((plot (plot:new 500 500))
+           (xrange (list -250 250 1))
            (points '(
               (-80 -60)
               (-60 -20)

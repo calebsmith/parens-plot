@@ -20,22 +20,3 @@
         (lambda (x)
             (+ (* a-val x) c-val))))
 
-
-;; Example run
-;; ----
-(define points '(
-  (-4 -3)
-  (-3 -1)
-  (-2 -2)
-  (-1.5 -0.5)
-  (-0.5 1)
-  (1 0)
-  (2 1.5)
-  (3.5 1)
-  (4 2.5)
-))
-
-
-(define fit-func (best-fit_func points))
-
-(map (lambda (e) (begin (display e) (newline))) (map fit-func (iota 10)))

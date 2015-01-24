@@ -1,4 +1,6 @@
-#include "gtk/gtk.h"
+#include <gtk/gtk.h>
+#include <libguile.h>
+
 
 #define WINDOW_WIDTH  800
 #define WINDOW_HEIGHT 800
@@ -46,10 +48,13 @@ static gchar* gtkcontrib_text_view_get_text(GtkTextView* text_view)
 static void run_cb(GtkWidget *widget, gpointer data )
 {
     gchar* text;
+    SCM result;
 
     text = gtkcontrib_text_view_get_text((GtkTextView*) data);
-    // TODO: Use entry_text for Scheme eval
-    g_print("Got: %s\n", text);
+    // TODO: Make result display somehow
+
+    scm_c_define("a", scm_from_int(3));
+    result = scm_c_eval_string(text);
 }
 
 /*
@@ -88,11 +93,44 @@ static void create_gtk_gui()
     gtk_container_add(GTK_CONTAINER(window), grid);
     gtk_widget_show_all(window);
 }
-
-int main (int argc, char *argv[])
+static void inner_main(void *nop, int argc, char *argv[])
 {
     gtk_init(&argc, &argv);
     create_gtk_gui();
     gtk_main();
+    return;
+}
+
+int main(int argc, char* argv[])
+{
+    scm_boot_guile(argc, argv, &inner_main, NULL);
+    // FIXME: Doesn't seem to load local scm file
+    scm_c_primitive_load("test.scm");
     return 0;
 }
+
+
+/*
+ *
+ * Adding this boilerplate in case its helpful. Can't seem to get exception
+ * handling going.
+
+SCM my_body_proc (void *body_data)
+{
+  // Execute the code in which you want to catch errors here.
+}
+
+SCM my_handler_proc (void *handler_data,
+                     SCM key,
+                     SCM parameters)
+{
+  // Put the code which you want to handle an error here.
+}
+
+{
+  scm_c_catch (SCM_BOOL_T,
+               my_body_proc, body_data,
+               my_handler_proc, handler_data,
+               NULL, NULL);
+}
+*/

@@ -50,20 +50,20 @@
 (define (plot:draw-line context x1 y1 x2 y2 color)
     (with-preserve context (lambda ()
         (cairo-set-line-width context 1)
-        (cairo-move-to context x1 y1)
-        (cairo-line-to context x2 y2)
+        (cairo-move-to context (+ 0.5 x1) (+ 0.5 y1))
+        (cairo-line-to context (+ 0.5 x2) (+ 0.5 y2))
         (apply cairo-set-source-rgb (cons context color))
         (cairo-stroke-preserve context))))
 
 
 (define (plot:draw-point context x y color)
-    (plot:draw-box context x y (1+ x) (1+ y) color))
+    (plot:draw-box context x y (+ x 0.5) (+ y 0.5) color))
 
 (define (plot:draw-points context points color)
     (map (lambda (point)
         (let ((x (list-ref point 0))
               (y (list-ref point 1)))
-            (plot:draw-box context x y (1+ x) (1+ y) color)))
+            (plot:draw-box context x y (+ x 0.5) (+ y 0.5) color)))
         points))
 
 
@@ -75,12 +75,12 @@
            (min-y (- max-y)))
         (with-preserve context (lambda ()
             (cairo-set-source-rgb context 0 0 0)
-            (cairo-set-line-width context 1)
+            (cairo-set-line-width context 0.5)
             (cairo-move-to context start-x (poly-func start-x))
             (lazy-map (lambda (x)
                         (let ((y (poly-func x)))
                           (if (and (> y min-y) (< y max-y))
-                              (cairo-line-to context x y))))
+                              (cairo-line-to context (+ x 0.5) (+ y 0.5)))))
                       (apply make-lazy-range xrange))
             (cairo-stroke context)))))
 

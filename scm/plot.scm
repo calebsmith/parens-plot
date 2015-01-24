@@ -57,13 +57,13 @@
 
 
 (define (plot:draw-point context x y color)
-    (plot:draw-box context x y (+ x 0.5) (+ y 0.5) color))
+    (plot:draw-box context (- x 0.5) (- y 0.5) (+ x 0.5) (+ y 0.5) color))
 
 (define (plot:draw-points context points color)
     (map (lambda (point)
         (let ((x (list-ref point 0))
               (y (list-ref point 1)))
-            (plot:draw-box context x y (+ x 0.5) (+ y 0.5) color)))
+            (plot:draw-point context x y color)))
         points))
 
 
